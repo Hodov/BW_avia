@@ -1,0 +1,17 @@
+{
+"graphite_url": "http://localhost",
+"slack": {
+    "webhook": "https://hooks.slack.com/services/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",
+    "channel": "#notify_tickets",
+    "username": "Jamal"
+},
+"prefix": "[BudgetWorld]",
+"critical_handlers": ["log","slack"],
+"warning_handlers": ["log","slack"],
+"normal_handlers": ["log"],
+"interval": "30minute",
+"repeat_interval": "3hour",
+"no_data": "normal",
+"alerts": [
+
+]}
