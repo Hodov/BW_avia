@@ -3,8 +3,11 @@ import datetime
 
 #originList = ["MOW","LED","HEL","TLL","RIX"]
 originList = ["MOW","LED"]
-destinationList = ["TIV","BCN","BOJ","RMI","CMN","AGA","ALC","PMI","SKG","HER","JTR","LCA","PFO","AYT","IBZ","LIS","DXB","ATH","IZM","CHQ","PMO","CEQ","VLC","HKT","BKK","CMB","GOI","SGN","MNL","KUL","JKT","DPS","SYX","TGD","SPU","CAG"]
+destinationList = ["SIP","TIV","BCN","BOJ","RMI","CMN","AGA","ALC","PMI","SKG","HER","JTR","LCA","PFO","AYT","IBZ","LIS","DXB","ATH","IZM","CHQ","PMO","CEQ","VLC","HKT","BKK","CMB","GOI","SGN","MNL","KUL","JKT","DPS","SYX","TGD","SPU","CAG"]
 #destinationList = ["SEL"]
+
+numberOfFlightsInOneDirection = 3
+countNumberOfFlights = 0
 
 origin = ""
 destination = ""
@@ -53,12 +56,16 @@ for o in originList:
 		parse = json.loads(response_body)
 		data = parse["data"]
 
+		countNumberOfFlights = 0
+
 		for i in data:
 			bool1 = int((datetime.datetime.strptime(i["return_date"], "%Y-%m-%d") - datetime.datetime.strptime(i["depart_date"], "%Y-%m-%d")).days) >= int(durationMin)
 			bool2 = int((datetime.datetime.strptime(i["return_date"], "%Y-%m-%d") - datetime.datetime.strptime(i["depart_date"], "%Y-%m-%d")).days) <= int(durationMax)
 			boole = bool1 and bool2
 
-			if fromDate<=i["depart_date"] and toDate>=i["return_date"] and int(value) >= int(i["value"]) and boole and i["number_of_changes"]>=0:
+			if countNumberOfFlights < numberOfFlightsInOneDirection and fromDate<=i["depart_date"] and toDate>=i["return_date"] and int(value) >= int(i["value"]) and boole and i["number_of_changes"]>=0:
+
+				countNumberOfFlights += 1
 
 				print i["origin"],
 				print i["destination"],
